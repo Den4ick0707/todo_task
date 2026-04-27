@@ -1,0 +1,121 @@
+<!DOCTYPE html>
+<html lang="uk">
+<head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <meta http-equiv="X-UA-Compatible" content="ie=edge" />
+    <title>Developer Notes | Task Manager</title>
+    <link rel="icon" href="data:,">
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link href="https://fonts.googleapis.com/css2?family=Syne:wght@400;600;700;800&family=DM+Mono:wght@300;400;500&display=swap" rel="stylesheet" />
+    <link rel="stylesheet" href="dist/css/main.min.css" />
+</head>
+<body class="page">
+
+<div class="app">
+
+    <!-- ─── Header ──────────────────────────────────────────────────────── -->
+    <header class="app__header">
+        <div class="app__header-inner">
+            <div class="app__header-left">
+                <h1 class="app__title">What needs<br /><em>to be done?</em></h1>
+                <div class="app__stats">
+                    <span class="app__stats-count" id="statsCount">0</span>
+                    <span class="app__stats-label">pending notes</span>
+                </div>
+            </div>
+            <button class="app__add-btn" id="addBtn" aria-label="Create new task">+</button>
+        </div>
+    </header>
+
+    <!-- ─── Main ────────────────────────────────────────────────────────── -->
+    <main class="app__main">
+        <div class="todo">
+
+            <!-- Filters -->
+            <div class="todo__filters filters">
+                <button class="filters__btn filters__btn--active" data-filter="all">All</button>
+                <button class="filters__btn" data-filter="active">In Progress</button>
+                <button class="filters__btn" data-filter="completed">Done</button>
+                <button class="filters__btn filters__btn--clear" id="clearCompleted">Clear finished</button>
+            </div>
+
+            <!-- Task list -->
+            <ul class="todo__list" id="taskList" role="list" aria-live="polite"></ul>
+
+            <!-- Empty state -->
+            <div class="todo__empty empty" id="emptyState" role="status" aria-live="polite">
+                <div class="empty__icon" aria-hidden="true">◎</div>
+                <p class="empty__text">No notes found in your local database</p>
+            </div>
+
+        </div>
+    </main>
+
+    <!-- ─── Footer ──────────────────────────────────────────────────────── -->
+    <footer class="app__footer">
+        <p class="app__footer-text">Click a task to edit &nbsp;·&nbsp; Powered by Express &amp; MongoDB</p>
+    </footer>
+
+</div>
+
+<!-- ─── Modal ─────────────────────────────────────────────────────────────── -->
+<div
+        class="modal"
+        id="taskModal"
+        role="dialog"
+        aria-modal="true"
+        aria-labelledby="modalHeading"
+>
+    <div class="modal__overlay" id="modalOverlay" aria-hidden="true"></div>
+
+    <div class="modal__content">
+        <header class="modal__header">
+            <h2 class="modal__title" id="modalHeading">Task Editor</h2>
+            <button class="modal__close" id="closeModal" aria-label="Close modal">×</button>
+        </header>
+
+        <div class="modal__body">
+            <div class="field">
+                <label class="field__label" for="modalTitle">Title</label>
+                <input
+                        type="text"
+                        id="modalTitle"
+                        class="field__input"
+                        placeholder="Enter task title…"
+                        autocomplete="off"
+                        maxlength="120"
+                />
+            </div>
+
+            <div class="field">
+                <label class="field__label" for="modalDesc">Description</label>
+                <textarea
+                        id="modalDesc"
+                        class="field__input field__input--textarea"
+                        placeholder="Add technical details…"
+                        maxlength="1000"
+                ></textarea>
+            </div>
+
+            <div class="field">
+                <label class="field__label" for="modalStatus">Status</label>
+                <select id="modalStatus" class="field__select">
+                    <option value="pending">Pending — in queue</option>
+                    <option value="in_progress">In Progress</option>
+                    <option value="completed">Completed — done</option>
+                </select>
+            </div>
+        </div> 
+
+        <footer class="modal__footer">
+            <button class="button button--secondary" id="cancelBtn">Discard</button>
+            <button class="button button--primary" id="saveTaskBtn">Save Changes</button>
+        </footer>
+    </div>
+</div>
+
+<script src="dist/js/main.min.js"></script>
+</body>
+</html>

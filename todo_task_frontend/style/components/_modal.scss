@@ -1,0 +1,191 @@
+@use '../abstract/variables' as v;
+@use '../abstract/mixins' as m;
+
+// ─── Modal ───────────────────────────────────────────────────────────────────
+.modal {
+  position: fixed;
+  inset: 0;
+  z-index: 1000;
+  @include m.flex-center;
+  visibility: hidden;
+  opacity: 0;
+  transition: opacity v.$transition-base, visibility v.$transition-base;
+
+  &--open {
+    visibility: visible;
+    opacity: 1;
+  }
+
+  // ─── Overlay ───────────────────────────────────────────────────────────
+  &__overlay {
+    position: absolute;
+    inset: 0;
+    background: rgba(v.$color-bg, 0.85);
+    backdrop-filter: blur(6px);
+    cursor: pointer; // Клік по оверлею — закриття
+  }
+
+  // ─── Dialog ────────────────────────────────────────────────────────────
+  &__content {
+    position: relative;
+    width: 100%;
+    max-width: 520px;
+    margin: v.$space-4;
+    @include m.glass(v.$color-surface, v.$color-border);
+    border-radius: v.$radius-lg;
+    box-shadow: 0 24px 48px rgba(0, 0, 0, 0.5);
+    transform: translateY(16px) scale(0.98);
+    transition: transform v.$transition-slow;
+
+    @include m.respond-to('sm') {
+      margin: v.$space-3;
+    }
+  }
+
+  &--open &__content {
+    transform: translateY(0) scale(1);
+  }
+
+  // ─── Header ────────────────────────────────────────────────────────────
+  &__header {
+    padding: v.$space-5 v.$space-6;
+    border-bottom: 1px solid v.$color-border;
+    @include m.flex(row, center, space-between);
+  }
+
+  &__title {
+    @include m.font-display(v.$fs-lg, v.$fw-bold);
+    color: v.$color-text;
+    letter-spacing: -0.02em;
+  }
+
+  &__close {
+    @include m.flex-center;
+    width: 32px;
+    height: 32px;
+    border-radius: v.$radius-sm;
+    font-size: v.$fs-lg;
+    color: v.$color-text-muted;
+    transition: color v.$transition-base, background v.$transition-base;
+
+    &:hover {
+      color: v.$color-danger;
+      background: rgba(v.$color-danger, 0.1);
+    }
+
+    &:focus-visible {
+      @include m.focus-ring(v.$color-danger);
+    }
+  }
+
+  // ─── Body ──────────────────────────────────────────────────────────────
+  &__body {
+    padding: v.$space-6;
+    @include m.flex(column, stretch, flex-start, v.$space-4);
+  }
+
+  // ─── Footer ────────────────────────────────────────────────────────────
+  &__footer {
+    padding: v.$space-4 v.$space-6;
+    border-top: 1px solid v.$color-border;
+    @include m.flex(row, center, flex-end, v.$space-3);
+  }
+}
+
+// ─── Form field ──────────────────────────────────────────────────────────────
+.field {
+  @include m.flex(column, flex-start, flex-start, v.$space-2);
+
+  &__label {
+    @include m.font-mono(v.$fs-xs, v.$fw-normal);
+    color: v.$color-accent;
+    letter-spacing: 0.06em;
+    text-transform: uppercase;
+  }
+
+  &__input,
+  &__select {
+    width: 100%;
+    background: v.$color-bg;
+    border: 1px solid v.$color-border;
+    border-radius: v.$radius-md;
+    padding: v.$space-3 v.$space-4;
+    color: v.$color-text;
+    @include m.font-display(v.$fs-sm, v.$fw-normal);
+    transition: border-color v.$transition-base, box-shadow v.$transition-base;
+
+    &::placeholder {
+      color: v.$color-text-muted;
+    }
+
+    &:focus {
+      border-color: v.$color-accent;
+      box-shadow: 0 0 0 3px rgba(v.$color-accent, 0.1);
+      outline: none;
+    }
+
+    &--textarea {
+      min-height: 100px;
+      resize: vertical;
+      line-height: 1.6;
+      @include m.font-mono(v.$fs-sm, v.$fw-light);
+    }
+  }
+
+  &__select {
+    appearance: none;
+    cursor: pointer;
+    background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='12' height='8' fill='none'%3E%3Cpath d='M1 1l5 5 5-5' stroke='%236a6a7a' stroke-width='1.5' stroke-linecap='round' stroke-linejoin='round'/%3E%3C/svg%3E");
+    background-repeat: no-repeat;
+    background-position: right v.$space-4 center;
+    padding-right: v.$space-10;
+  }
+}
+
+// ─── Buttons ─────────────────────────────────────────────────────────────────
+.button {
+  @include m.flex-center;
+  @include m.font-display(v.$fs-sm, v.$fw-semi);
+  padding: v.$space-3 v.$space-6;
+  border-radius: v.$radius-md;
+  letter-spacing: 0.02em;
+  transition: all v.$transition-base;
+  min-width: 100px;
+
+  &:focus-visible {
+    @include m.focus-ring;
+  }
+
+  &:active {
+    transform: scale(0.96);
+  }
+
+  // ─── Primary ───────────────────────────────────────────────────────────
+  &--primary {
+    background: v.$color-accent;
+    color: v.$color-bg;
+
+    &:hover {
+      background: v.$color-accent-dim;
+      box-shadow: 0 4px 16px rgba(v.$color-accent, 0.25);
+    }
+
+    &:disabled {
+      opacity: 0.5;
+      cursor: not-allowed;
+      transform: none;
+    }
+  }
+
+  // ─── Secondary ─────────────────────────────────────────────────────────
+  &--secondary {
+    background: transparent;
+    color: v.$color-text-muted;
+    border: 1px solid v.$color-border;
+
+    &:hover {
+      border-color: v.$color-text-muted;
+      color: v.$color-text;
+    }
+  }
+}

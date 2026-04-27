@@ -1,0 +1,31 @@
+{
+  "name": "todo_task_frontend",
+  "version": "1.0.0",
+  "description": "todo_task_frontend",
+  "main": "index.js",
+  "type": "module",
+  "scripts": {
+    "dev": "gulp",
+    "build": "gulp build"
+  },
+  "author": "Daryev Daniil",
+  "license": "ISC",
+  "devDependencies": {
+    "browser-sync": "^3.0.4",
+    "del": "^6.1.1",
+    "gulp": "^5.0.1",
+    "gulp-autoprefixer": "^8.0.0",
+    "gulp-clean-css": "^4.3.0",
+    "gulp-concat": "^2.6.1",
+    "gulp-htmlmin": "^5.0.1",
+    "gulp-rename": "^2.1.0",
+    "gulp-sass": "^6.0.1",
+    "gulp-terser": "^2.1.0",
+    "postcss": "^8.5.10",
+    "sass": "^1.99.0"
+  },
+  "dependencies": {
+    "gulp-cli": "^3.1.0",
+    "gulp-sourcemaps": "^3.0.0"
+  }
+}

@@ -1,0 +1,236 @@
+@use '../abstract/variables' as v;
+@use '../abstract/mixins' as m;
+
+// ─── Page root ───────────────────────────────────────────────────────────────
+.page {
+  background: v.$color-bg;
+  color: v.$color-text;
+}
+
+// ─── App wrapper ─────────────────────────────────────────────────────────────
+.app {
+  min-height: 100dvh;
+  @include m.flex(column, stretch, flex-start);
+
+  background-color: v.$color-bg;
+  background-image:
+          linear-gradient(rgba(v.$color-accent, 0.03) 1px, transparent 1px),
+          linear-gradient(90deg, rgba(v.$color-accent, 0.03) 1px, transparent 1px);
+  background-size: 40px 40px;
+
+  // ─── Header ────────────────────────────────────────────────────────────
+  &__header {
+    padding: v.$space-10 v.$space-6 v.$space-8;
+    border-bottom: 1px solid v.$color-border;
+    position: relative;
+    overflow: hidden;
+
+    // Ambient glow
+    &::before {
+      content: '';
+      position: absolute;
+      top: -80px;
+      right: -80px;
+      width: 280px;
+      height: 280px;
+      border-radius: 50%;
+      background: radial-gradient(circle, rgba(v.$color-accent, 0.1) 0%, transparent 70%);
+      pointer-events: none;
+    }
+  }
+
+  &__header-inner {
+    max-width: v.$max-width;
+    margin: 0 auto;
+    position: relative;
+    @include m.flex(row, flex-end, space-between, v.$space-4);
+    flex-wrap: wrap;
+  }
+
+  &__header-left {
+    flex: 1;
+    min-width: 0;
+  }
+
+  &__label {
+    @include m.font-mono(v.$fs-xs, v.$fw-light);
+    color: v.$color-accent;
+    letter-spacing: 0.1em;
+    text-transform: uppercase;
+    display: block;
+    margin-bottom: v.$space-3;
+  }
+
+  &__title {
+    @include m.font-display(v.$fs-3xl, v.$fw-black);
+    line-height: 1.05;
+    color: v.$color-text;
+    letter-spacing: -0.03em;
+
+    em {
+      color: v.$color-accent;
+      font-style: italic;
+    }
+
+    @include m.respond-to('sm') {
+      font-size: v.$fs-2xl;
+    }
+  }
+
+  &__stats {
+    @include m.flex(row, baseline, flex-start, v.$space-2);
+    margin-top: v.$space-4;
+  }
+
+  &__stats-count {
+    @include m.font-display(v.$fs-xl, v.$fw-bold);
+    color: v.$color-accent;
+    font-variant-numeric: tabular-nums;
+    transition: v.$transition-base;
+  }
+
+  &__stats-label {
+    @include m.font-mono(v.$fs-xs);
+    color: v.$color-text-muted;
+    letter-spacing: 0.05em;
+  }
+
+  // ─── Add button ────────────────────────────────────────────────────────
+  &__add-btn {
+    @include m.flex-center;
+    @include m.font-display(v.$fs-xl, v.$fw-bold);
+    flex-shrink: 0;
+    width: 48px;
+    height: 48px;
+    border-radius: v.$radius-md;
+    background: v.$color-accent;
+    color: v.$color-bg;
+    line-height: 1;
+    transition: background v.$transition-base, transform v.$transition-fast, box-shadow v.$transition-base;
+
+    &:hover {
+      background: v.$color-accent-dim;
+      box-shadow: 0 0 0 4px rgba(v.$color-accent, 0.15);
+    }
+
+    &:active {
+      transform: scale(0.9);
+    }
+
+    &:focus-visible {
+      @include m.focus-ring;
+    }
+  }
+
+  // ─── Main ──────────────────────────────────────────────────────────────
+  &__main {
+    flex: 1;
+    padding: v.$space-8 v.$space-6;
+    max-width: v.$max-width;
+    width: 100%;
+    margin: 0 auto;
+    align-self: center;
+
+    @include m.respond-to('sm') {
+      padding: v.$space-6 v.$space-4;
+    }
+  }
+
+  // ─── Footer ────────────────────────────────────────────────────────────
+  &__footer {
+    padding: v.$space-5 v.$space-6;
+    border-top: 1px solid v.$color-border;
+    text-align: center;
+  }
+
+  &__footer-text {
+    @include m.font-mono(v.$fs-xs);
+    color: v.$color-text-muted;
+    letter-spacing: 0.05em;
+  }
+}
+
+// ─── Todo block ──────────────────────────────────────────────────────────────
+.todo {
+  @include m.flex(column, stretch, flex-start, v.$space-4);
+
+  &__list {
+    @include m.flex(column, stretch, flex-start, v.$space-2);
+    min-height: 0;
+  }
+
+  &__empty {
+    display: none;
+
+    &.is-visible {
+      display: flex;
+    }
+  }
+}
+
+// ─── Filters ─────────────────────────────────────────────────────────────────
+.filters {
+  @include m.flex(row, center, flex-start, v.$space-2);
+  flex-wrap: wrap;
+
+  &__btn {
+    @include m.font-mono(v.$fs-xs, v.$fw-normal);
+    padding: v.$space-2 v.$space-4;
+    border-radius: v.$radius-full;
+    border: 1px solid v.$color-border;
+    color: v.$color-text-muted;
+    letter-spacing: 0.04em;
+    transition: all v.$transition-base;
+
+    &:hover {
+      border-color: rgba(v.$color-text-muted, 0.6);
+      color: v.$color-text;
+    }
+
+    &--active {
+      background: v.$color-accent;
+      border-color: v.$color-accent;
+      color: v.$color-bg;
+      font-weight: v.$fw-semi;
+    }
+
+    &--clear {
+      margin-left: auto;
+      color: v.$color-danger;
+      border-color: transparent;
+
+      &:hover {
+        border-color: v.$color-danger;
+      }
+    }
+
+    &:focus-visible {
+      @include m.focus-ring;
+    }
+  }
+}
+
+// ─── Empty state ─────────────────────────────────────────────────────────────
+.empty {
+  @include m.flex(column, center, center, v.$space-3);
+  padding: v.$space-16 v.$space-6;
+  text-align: center;
+
+  &__icon {
+    font-size: 2.5rem;
+    color: v.$color-text-muted;
+    opacity: 0.4;
+    animation: pulse 3s ease-in-out infinite;
+  }
+
+  &__text {
+    @include m.font-mono(v.$fs-sm);
+    color: v.$color-text-muted;
+    letter-spacing: 0.05em;
+  }
+}
+
+@keyframes pulse {
+  0%, 100% { opacity: 0.4; transform: scale(1); }
+  50%       { opacity: 0.7; transform: scale(1.08); }
+}
